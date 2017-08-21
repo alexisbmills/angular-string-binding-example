@@ -1,1 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
+
+body {
+    color: #a9a9a9;
+    padding: 20px 0;
+}
+
+.col-1 {
+    padding: 0 10px;
+}
+
+.highlight {
+    color: #efefef;
+    background: #ff3b3f;
+    font-weight: bold;
+    padding: 2px 3px;
+}
+
+.mat-input-placeholder {
+    color: #a9a9a9;
+}
+
+.mat-input-underline {
+    background-color: #efefef;
+}
+
+.mat-input-ripple.mat-accent {
+    background-color: #a9a9a9;
+
+}
