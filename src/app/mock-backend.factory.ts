@@ -1,4 +1,3 @@
-
 import {BaseRequestOptions, Http, RequestMethod, ResponseOptions, XHRBackend, Response} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
 
@@ -9,7 +8,7 @@ export function mockBackendFactory(backend: MockBackend, requestOptions: BaseReq
 
       if (connection.request.url.match(mockDataMatcher) && connection.request.method === RequestMethod.Get) {
         const options = new ResponseOptions({
-          body: JSON.stringify({html: '<p>Welcome to {{location}}, {{name}}.</p>'})
+          body: JSON.stringify({html: `<p>Welcome to {{values.location}}, {{values.name}}. <button md-button color="primary" [routerLink]="['/']">Button</button> </p>`})
         });
         connection.mockRespond(new Response(options));
         return;

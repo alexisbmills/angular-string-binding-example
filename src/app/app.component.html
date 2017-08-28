@@ -1,7 +1,7 @@
 <div class="col-1">
   <h1>Angular placeholder databinding demo</h1>
 </div>
-<div [formGroup]="values" class="form">
+<div [formGroup]="formGroup" class="form">
   <div class="col-1">
   <p>Enter values below to dynamically update placeholders in HTML from a backend.</p>
   <md-input-container dividerColor="accent" floatPlaceholder="always">
@@ -15,4 +15,8 @@
 <div class="col-1">
   <h2>Preview:</h2>
   <div [innerHTML]="dynamic | async | safeHtml"></div>
+</div>
+<div class="col-1">
+  <h2>Component Factory Preview:</h2>
+  <div appHtmlOutlet [combined]="combined | async"></div>
 </div>

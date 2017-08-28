@@ -19,36 +19,39 @@ export interface DynamicValues {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
 
   dynamic: Observable<string>;
 
-  values: FormGroup;
+  formGroup: FormGroup;
+
+  combined: Observable<{ html: string, values: DynamicValues }>;
 
   constructor(private formBuilder: FormBuilder, private http: Http) {
-    const htmlFromServer = this.http.get('/api/data')
-      .map((response: Response): any => response.json().html);
-
-    this.values = this.formBuilder.group({
+    this.formGroup = this.formBuilder.group({
       name: [{value: '', disabled: false}],
       location: [{value: '', disabled: false}]
     });
-
-    const valueChanges: Observable<DynamicValues> = this.values.valueChanges
+    const formChanges = this.formGroup.valueChanges
       .debounceTime(250)
       .distinctUntilChanged();
 
-    this.dynamic = Observable
+
+    const htmlFromServer = this.http.get('/api/data')
+      .map((response: Response): any => response.json().html);
+
+    this.combined = Observable
       .combineLatest(
         htmlFromServer,
-        valueChanges,
+        formChanges,
         (html: string, values: DynamicValues) => ({html, values})
-      )
+      );
+
+    this.dynamic = this.combined
       .map((changes: { html: string, values: DynamicValues }) => {
         let newHtml = changes.html;
         for (const key in changes.values) {
           if (changes.values.hasOwnProperty(key)) {
-            newHtml = newHtml.replace(`{{${key}}}`, (match: string) => `<span class="highlight">${changes.values[key]}</span>`);
+            newHtml = newHtml.replace(`{{values.${key}}}`, (match: string) => `<span class="highlight">${changes.values[key]}</span>`);
           }
         }
         return newHtml;
